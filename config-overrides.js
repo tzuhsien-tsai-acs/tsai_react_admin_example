@@ -1,16 +1,14 @@
 // config-overrides.js
 const webpack = require('webpack');
-const { override } = require('customize-cra');
+const { override } = require('customize-cra'); // 確保這行存在
 
-module.exports = override(
+module.exports = override( // <--- 這裡需要調用 override 函數
     (config) => {
-        // 添加 Node.js 核心模組的 fallback
         config.resolve.fallback = {
             ...config.resolve.fallback,
             "buffer": require.resolve("buffer/"),
             "stream": require.resolve("stream-browserify"),
-            "crypto": require.resolve("crypto-browserify"), // <-- **新增這行**
-            // 這些通常也會被需要，為了穩健性建議也加上
+            "crypto": require.resolve("crypto-browserify"),
             "assert": require.resolve("assert/"),
             "util": require.resolve("util/"),
             "url": require.resolve("url/"),
@@ -20,11 +18,10 @@ module.exports = override(
             "path": require.resolve("path-browserify"),
         };
 
-        // 添加 Webpack ProvidePlugin 來自動引入 process 和 Buffer
         config.plugins = (config.plugins || []).concat([
             new webpack.ProvidePlugin({
-                process: 'process/browser', // <-- **新增這行**
-                Buffer: ['buffer', 'Buffer'], // <-- **新增這行**
+                process: 'process/browser',
+                Buffer: ['buffer', 'Buffer'],
             }),
         ]);
 
