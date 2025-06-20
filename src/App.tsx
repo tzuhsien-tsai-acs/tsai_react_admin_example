@@ -1,7 +1,8 @@
 if (typeof global === 'undefined') {
   (window as any).global = window;
 }
-import { Admin, Resource } from 'react-admin';
+import { Admin, Resource, CustomRoutes } from 'react-admin';
+import { Route } from 'react-router-dom';
 import { Layout } from "./Layout";
 import { dataProvider } from "./dataProvider";
 import { UserList } from "./users";

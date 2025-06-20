@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'; // 使用 react-router-dom 的 hook
 import { useNotify } from 'react-admin';
-import { CognitoUser } from 'amazon-cognito-identity-js'; // 引入 CognitoUser
+import { CognitoUser, CognitoUserPool } from 'amazon-cognito-identity-js'; // 引入 CognitoUser
 
 import {
     TextField,
