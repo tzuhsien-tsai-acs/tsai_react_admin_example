@@ -14,8 +14,8 @@ import {
 
 // 確保 poolData 和 userPool 在這裡也能被訪問到，或者從 authProvider 導出
 const poolData = {
-    UserPoolId: 'YOUR_COGNITO_USER_POOL_ID', // 請替換為您的 Cognito 用戶池 ID
-    ClientId: 'YOUR_COGNITO_APP_CLIENT_ID' // 請替換為您的 Cognito 應用程式客戶端 ID
+    UserPoolId: 'ap-northeast-1_NC1G6gOeq', // 請替換為您的 Cognito 用戶池 ID
+    ClientId: '4nhi3a8o179vf4ni8k0gdut28l' // 請替換為您的 Cognito 應用程式客戶端 ID
 };
 const userPool = new CognitoUserPool(poolData); // 再次實例化或從 authProvider 引入
 
