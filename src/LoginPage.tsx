@@ -2,6 +2,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useLogin, useNotify, Notification } from 'react-admin';
+import { useNavigate } from 'react-router-dom'; // 引入 useNavigate
 import { TextField, Button, Card, CardContent } from '@mui/material';
 
 const LoginPage = () => {
@@ -9,11 +10,19 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const login = useLogin();
     const notify = useNotify();
+    const navigate = useNavigate(); // 實例化 useNavigate
 
     const handleSubmit = (e) => {
         e.preventDefault();
         login({ username, password })
-            .catch(() => notify('無效的用戶名或密碼', { type: 'warning' }));
+            .catch((error) => {
+                if (error.redirectTo) {
+                    // 如果錯誤對象有 redirectTo 屬性，則重定向
+                    navigate(error.redirectTo, { state: error.state });
+                } else {
+                    notify('無效的用戶名或密碼', { type: 'warning' });
+                }
+            });
     };
 
     return (

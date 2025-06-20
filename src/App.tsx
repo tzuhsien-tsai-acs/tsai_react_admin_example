@@ -10,10 +10,14 @@ import { PhotoList } from "./photos";
 import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
 import authProvider from './authProvider'; 
-import LoginPage from './LoginPage'; 
+import LoginPage from './LoginPage.tsx'; 
+import NewPasswordPage from './NewPasswordPage.tsx';
 
 export const App = () => (
-  <Admin layout={Layout} dataProvider={dataProvider} authProvider={authProvider}>
+  <Admin layout={Layout} dataProvider={dataProvider} authProvider={authProvider} loginPage={LoginPage}>
+    <CustomRoutes>
+            <Route path="/new-password" element={<NewPasswordPage />} />
+    </CustomRoutes>
     <Resource name="users" list={UserList} />
     <Resource name="posts" list={PostList} />
     <Resource name="photos" list={PhotoList} />

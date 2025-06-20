@@ -36,10 +36,18 @@ const authProvider = {
                     reject(err.message);
                 },
                 newPasswordRequired: (userAttributes, requiredAttributes) => {
-                    // 如果用戶需要設置新密碼 (例如首次登入或密碼過期)
-                    // 您可以在這裡處理這個流程，通常會引導用戶到一個新密碼設置頁面
                     console.warn('需要設置新密碼:', userAttributes, requiredAttributes);
-                    reject('New password required'); // 或引導到特定頁面
+                    // 為了觸發重定向到新密碼頁面，我們不能簡單地 reject
+                    // react-admin 的 authProvider 登入失敗時可以返回一個帶有 redirectTo 的對象
+                    // 但對於這種需要用戶交互的情況，更好的做法是通過歷史記錄進行導航。
+                    // 由於 authProvider 的 login 方法預期 Promise resolve/reject，
+                    // 我們需要一些額外的機制來觸發重定向。
+                    // 最直接的方式是拋出一個包含重定向信息的錯誤，
+                    // 然後在 Login 頁面捕獲它並進行導航。
+                    const redirectError = new Error('New password required');
+                    redirectError.redirectTo = '/new-password';
+                    redirectError.state = { username: username, userAttributes: userAttributes }; // 傳遞必要信息
+                    reject(redirectError);
                 }
             });
         });
