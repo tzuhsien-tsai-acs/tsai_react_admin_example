@@ -1,7 +1,7 @@
 // src/LoginPage.js
 import * as React from 'react';
 import { useState } from 'react';
-import { useLogin, useNotify, Notification } from 'react-admin';
+import { useLogin, useNotify, Notification as RaNotification  } from 'react-admin';
 import { useNavigate } from 'react-router-dom'; // 引入 useNavigate
 import { TextField, Button, Card, CardContent } from '@mui/material';
 
@@ -53,7 +53,7 @@ const LoginPage = () => {
                     </form>
                 </CardContent>
             </Card>
-            <Notification />
+            <RaNotification />
         </div>
     );
 };
