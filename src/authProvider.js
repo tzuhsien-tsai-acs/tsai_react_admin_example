@@ -1,16 +1,17 @@
 // src/authProvider.js
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
 
-// 替換成您的 Cognito 用戶池和應用程式客戶端 ID
+// --- 請務必確認這裡的 Cognito 用戶池 ID 和應用程式客戶端 ID 是否正確 ---
 const poolData = {
-    UserPoolId: 'ap-northeast-1_NC1G6gOeq',
-    ClientId: '4nhi3a8o179vf4ni8k0gdut28l'
+    UserPoolId: 'ap-northeast-1_NC1G6gOeq', // 您的 Cognito 用戶池 ID
+    ClientId: '4nhi3a8o179vf4ni8k0gdut28l'  // 您的 Cognito 應用程式客戶端 ID
 };
+// -------------------------------------------------------------
 
 const userPool = new CognitoUserPool(poolData);
 
+// 新增：導出一個變數來臨時存儲需要新密碼的用戶實例
 const authProvider = {
-    // 登入
     async login({ username, password }) {
         return new Promise((resolve, reject) => {
             const authenticationDetails = new AuthenticationDetails({
@@ -25,8 +26,6 @@ const authProvider = {
 
             cognitoUser.authenticateUser(authenticationDetails, {
                 onSuccess: (result) => {
-                    // 登入成功，可以將 token 存儲在 localStorage 中
-                    // 例如：result.getIdToken().getJwtToken()
                     localStorage.setItem('cognito_id_token', result.getIdToken().getJwtToken());
                     localStorage.setItem('cognito_access_token', result.getAccessToken().getJwtToken());
                     localStorage.setItem('cognito_refresh_token', result.getRefreshToken().getToken());
@@ -37,16 +36,13 @@ const authProvider = {
                 },
                 newPasswordRequired: (userAttributes, requiredAttributes) => {
                     console.warn('需要設置新密碼:', userAttributes, requiredAttributes);
-                    // 為了觸發重定向到新密碼頁面，我們不能簡單地 reject
-                    // react-admin 的 authProvider 登入失敗時可以返回一個帶有 redirectTo 的對象
-                    // 但對於這種需要用戶交互的情況，更好的做法是通過歷史記錄進行導航。
-                    // 由於 authProvider 的 login 方法預期 Promise resolve/reject，
-                    // 我們需要一些額外的機制來觸發重定向。
-                    // 最直接的方式是拋出一個包含重定向信息的錯誤，
-                    // 然後在 Login 頁面捕獲它並進行導航。
+
+                    // 關鍵修改：使用 set 函數來存儲 CognitoUser 實例
+                    setCognitoUserRequiringNewPassword(cognitoUser);
+
                     const redirectError = new Error('New password required');
                     redirectError.redirectTo = '/new-password';
-                    redirectError.state = { username: username, userAttributes: userAttributes }; // 傳遞必要信息
+                    redirectError.state = { username: username };
                     reject(redirectError);
                 }
             });
@@ -57,10 +53,10 @@ const authProvider = {
     async checkError(error) {
         const status = error.status;
         if (status === 401 || status === 403) {
-            // 如果後端返回 401 或 403，表示權限問題，應該登出
             localStorage.removeItem('cognito_id_token');
             localStorage.removeItem('cognito_access_token');
             localStorage.removeItem('cognito_refresh_token');
+            // 返回 Promise.reject({ redirectTo: '/login' }) 以觸發 react-admin 的重定向
             return Promise.reject({ redirectTo: '/login' });
         }
         return Promise.resolve();
@@ -78,7 +74,6 @@ const authProvider = {
                         return;
                     }
                     if (session.isValid()) {
-                        // 如果 session 有效，則表示已認證
                         resolve();
                     } else {
                         // session 無效，嘗試刷新 token
@@ -110,7 +105,9 @@ const authProvider = {
         localStorage.removeItem('cognito_id_token');
         localStorage.removeItem('cognito_access_token');
         localStorage.removeItem('cognito_refresh_token');
-        return Promise.resolve('/login'); // 重定向到登入頁面
+        // 清理臨時存儲的用戶實例
+        setCognitoUserRequiringNewPassword(null); // <--- 使用 set 函數來清理
+        return Promise.resolve('/login');
     },
 
     // 獲取用戶身份
@@ -131,9 +128,11 @@ const authProvider = {
                             }
                             // 將 Cognito 用戶屬性轉換為 react-admin 需要的格式
                             const identity = {
-                                id: attributes.find(attr => attr.Name === 'sub')?.Value || cognitoUser.getUsername(), // 使用 sub 作為唯一 ID
+                                // 使用 'sub' (用戶唯一標識符) 作為 react-admin 的 id
+                                id: attributes.find(attr => attr.Name === 'sub')?.Value || cognitoUser.getUsername(),
                                 fullName: attributes.find(attr => attr.Name === 'name')?.Value || cognitoUser.getUsername(),
-                                // 添加其他您需要的屬性，例如 avatar
+                                // 添加其他您需要的屬性，例如 email, avatar 等
+                                email: attributes.find(attr => attr.Name === 'email')?.Value,
                             };
                             resolve(identity);
                         });
@@ -148,24 +147,29 @@ const authProvider = {
     },
 
     // 檢查權限 (可選)
-    async canAccess({ resource, action }) {
+    async getPermissions() {
         // 這部分取決於您的權限設計
         // 您可以從 Cognito 的 ID Token 中獲取組 (Groups) 信息來判斷權限
         // 或者根據用戶的屬性來判斷
         const idToken = localStorage.getItem('cognito_id_token');
         if (!idToken) {
-            return Promise.resolve({ authorized: false });
+            return Promise.resolve([]); // 未登入，沒有權限
         }
 
-        // 這裡可以解析 JWT 並檢查其中的 `cognito:groups` 聲明
-        // 例如：
-        // const decodedToken = JSON.parse(atob(idToken.split('.')[1]));
-        // const groups = decodedToken['cognito:groups'] || [];
-        // if (groups.includes('admin')) {
-        //     return Promise.resolve({ authorized: true });
-        // }
-
-        return Promise.resolve({ authorized: true }); // 暫時預設為 true，請根據您的需求實作
+        try {
+            // 解析 JWT 並檢查其中的 `cognito:groups` 聲明
+            const decodedToken = JSON.parse(atob(idToken.split('.')[1]));
+            const groups = decodedToken['cognito:groups'] || [];
+            // 例如：如果用戶在 'admin' 組，給予 'admin' 權限
+            if (groups.includes('admin')) {
+                return Promise.resolve(['admin']);
+            }
+            // 否則，返回空數組或其他默認權限
+            return Promise.resolve(['user']); // 默認給予 'user' 權限
+        } catch (e) {
+            console.error('解析 ID Token 失敗:', e);
+            return Promise.resolve([]);
+        }
     }
 };
 

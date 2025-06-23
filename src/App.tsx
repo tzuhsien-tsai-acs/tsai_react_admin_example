@@ -1,6 +1,3 @@
-if (typeof global === 'undefined') {
-  (window as any).global = window;
-}
 import { Admin, Resource, CustomRoutes } from 'react-admin';
 import { Route } from 'react-router-dom';
 import { Layout } from "./Layout";
@@ -11,11 +8,12 @@ import { PhotoList } from "./photos";
 import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
 import authProvider from './authProvider'; 
-import LoginPage from './LoginPage.tsx'; 
-import NewPasswordPage from './NewPasswordPage.tsx';
+import LoginPage from './LoginPage.jsx'; 
+import NewPasswordPage from './NewPasswordPage.jsx';
 
 export const App = () => (
   <Admin layout={Layout} dataProvider={dataProvider} authProvider={authProvider} loginPage={LoginPage}>
+
     <CustomRoutes>
             <Route path="/new-password" element={<NewPasswordPage />} />
     </CustomRoutes>
