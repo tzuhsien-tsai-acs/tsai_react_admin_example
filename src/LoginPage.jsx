@@ -1,31 +1,36 @@
 // src/LoginPage.jsx
 import * as React from 'react';
 import { useState } from 'react';
-import { useLogin, useNotify, Notification as RaNotification } from 'react-admin'; // 使用別名 RaNotification
-import { useNavigate } from 'react-router-dom'; // 引入 useNavigate
-import { TextField, Button, Card, CardContent, Typography } from '@mui/material'; // 確保導入 Typography
+import { useLogin, useNotify, Notification as RaNotification } from 'react-admin';
+// 不再需要 useNavigate，因為 react-admin 的 useLogin 會處理 redirectTo
+// import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const login = useLogin();
-    const notify = useNotify();
-    const navigate = useNavigate(); // 實例化 useNavigate
+    const login = useLogin(); // react-admin 提供的登入鉤子
+    const notify = useNotify(); // react-admin 提供的通知鉤子
+    // const navigate = useNavigate(); // 移除 useNavigate
 
+    /**
+     * 處理登入表單提交。
+     * @param {React.FormEvent} e - 表單事件對象。
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
+        // 調用 useLogin 鉤子進行登入
         login({ username, password })
             .then(() => {
-                // 如果登入成功，不需要做任何事情，react-admin 會自動重定向
-                // 或者如果您希望手動重定向到特定頁面，可以在這裡添加 navigate('/')
+                // 如果 Promise resolve，表示登入成功（或新密碼設置成功），
+                // react-admin 的 useLogin 會自動將用戶重定向到主頁或指定的 `/` 路徑。
+                // 因此這裡通常不需要手動進行 navigate。
             })
             .catch((error) => {
-                if (error.redirectTo) {
-                    // 如果錯誤對象有 redirectTo 屬性，則重定向 (例如 New password required)
-                    navigate(error.redirectTo, { state: error.state });
-                } else {
-                    notify(`登入失敗: ${error.message || '無效的用戶名或密碼'}`, { type: 'warning' });
-                }
+                // 如果 Promise reject，表示登入失敗。
+                // 如果 error 對象包含 redirectTo 屬性，useLogin 會自動處理重定向。
+                // 對於其他類型的錯誤（例如無效的用戶名/密碼），彈出通知。
+                notify(`登入失敗: ${error.message || '無效的用戶名或密碼'}`, { type: 'warning' });
             });
     };
 
@@ -60,7 +65,7 @@ const LoginPage = () => {
                     </form>
                 </CardContent>
             </Card>
-            <RaNotification /> {/* 使用別名 */}
+            <RaNotification /> {/* 顯示 react-admin 的通知 */}
         </div>
     );
 };
