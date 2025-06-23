@@ -1,17 +1,18 @@
 // src/NewPasswordPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useNotify, Notification as RaNotification } from 'react-admin'; // 使用別名 RaNotification
+import { useNotify, Notification as RaNotification } from 'react-admin';
 import { CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
 import {
     TextField,
     Button,
     Card,
     CardContent,
-    Typography, // <-- 確保這裡有導入 Typography
+    Typography,
 } from '@mui/material';
 
-import { cognitoUserRequiringNewPassword } from './authProvider'; // <--- 導入存儲的實例
+// --- 關鍵修改：從 cognitoState 導入相關函數 ---
+import { getCognitoUserRequiringNewPassword, clearCognitoUserRequiringNewPassword } from './cognitoState';
 
 // --- 請務必確認這裡的 Cognito 用戶池 ID 和應用程式客戶端 ID 是否正確 ---
 const poolData = {
@@ -37,7 +38,7 @@ const NewPasswordPage = () => {
         const storedUser = getCognitoUserRequiringNewPassword();
         if (storedUser) {
             setCognitoUserInstance(storedUser);
-            setUserAttributesForChallenge({});
+            setUserAttributesForChallenge({}); // completeNewPasswordChallenge 通常不需要額外的 userAttributes 參數
         } else {
             notify('會話過期或無效，請重新登入。', { type: 'error' });
             navigate('/login');
@@ -45,7 +46,7 @@ const NewPasswordPage = () => {
 
         // 組件卸載時清理存儲的實例
         return () => {
-            clearCognitoUserRequiringNewPassword(); // <--- 使用 clear 函數來清理
+            clearCognitoUserRequiringNewPassword(); // <--- 關鍵修改：使用 clearCognitoUserRequiringNewPassword 函數來清理
         };
     }, [navigate, notify]);
 
@@ -65,6 +66,7 @@ const NewPasswordPage = () => {
 
         try {
             await new Promise((resolve, reject) => {
+                // 使用從 authProvider 傳遞過來的 `cognitoUserInstance`
                 cognitoUserInstance.completeNewPasswordChallenge(newPassword, {}, {
                     onSuccess: (session) => {
                         console.log('新密碼設置成功', session);
@@ -81,14 +83,13 @@ const NewPasswordPage = () => {
                 });
             });
             // 成功後清理並重定向
-            clearCognitoUserRequiringNewPassword(); // <--- 使用 clear 函數來清理
+            clearCognitoUserRequiringNewPassword(); // <--- 關鍵修改：使用 clearCognitoUserRequiringNewPassword 函數來清理
             navigate('/');
         } catch (error) {
             notify(`設置新密碼失敗: ${error.message}`, { type: 'error' });
         }
     };
 
-    // 如果 cognitoUserInstance 還沒準備好，可以顯示載入中
     if (!cognitoUserInstance && location.state?.username) {
         return (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>

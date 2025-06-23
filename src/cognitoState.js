@@ -1,5 +1,5 @@
 // src/cognitoState.js
-let _cognitoUserInstance = null; // 使用一個內部變數來存儲
+let _cognitoUserInstance = null; // 私有變數，用於實際存儲 CognitoUser 實例
 
 export const setCognitoUserRequiringNewPassword = (user) => {
     _cognitoUserInstance = user;
