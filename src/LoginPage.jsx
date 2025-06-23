@@ -3,12 +3,14 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useLogin, useNotify, Notification as RaNotification } from 'react-admin';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom'; // *** 導入 useNavigate 鉤子 ***
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const login = useLogin();
     const notify = useNotify();
+    const navigate = useNavigate(); // *** 初始化 useNavigate ***
 
     /**
      * 處理登入表單提交。
@@ -20,22 +22,16 @@ const LoginPage = () => {
             .then(() => {
                 // 如果 Promise resolve，表示登入成功。
                 // react-admin 的 useLogin 會自動將用戶重定向到主頁或指定的 `/` 路徑。
-                // 因此這裡不需要手動進行 navigate。
             })
             .catch((error) => {
-                // 這裡我們明確檢查 error 對象是否有 redirectTo 屬性。
-                // 如果有，說明這是 authProvider 發出的重定向信號（例如 newPasswordRequired）。
-                // 此時 useLogin 應該會自行處理重定向。
-                // 我們不應該在這裡顯示通知，避免在重定向時彈出錯誤通知。
-                if (error && error.redirectTo) {
-                    console.log('Login catch: Redirect detected, letting react-admin handle it.', error); //
-                    // 注意：這裡不需執行任何動作，因為 useLogin 會自動導航。
-                    // 以前的 "會話過期或無效，請重新登入" 通知應該是 NewPasswordPage 判斷 !storedUser 時發出的，
-                    // 這應該是另一個獨立的問題，或是一個後續鏈式的結果。
+                // *** 關鍵改變：檢查錯誤訊息是否是我們自定義的 'NEW_PASSWORD_REQUIRED' ***
+                if (error === 'NEW_PASSWORD_REQUIRED') {
+                    console.log('Detected NEW_PASSWORD_REQUIRED, navigating to /new-password');
+                    // 手動導航到新密碼頁面，並傳遞 username 作為 state
+                    navigate('/new-password', { state: { username: username } });
                 } else {
-                    // 對於沒有 redirectTo 屬性的普通登入錯誤，顯示通知。
-                    // error.message 會包含 authProvider 傳遞過來的錯誤訊息。
-                    notify(`登入失敗: ${error.message || '未知錯誤'}`, { type: 'warning' });
+                    // 對於其他普通登入錯誤，顯示通知。
+                    notify(`登入失敗: ${error || '未知錯誤'}`, { type: 'warning' });
                 }
             });
     };

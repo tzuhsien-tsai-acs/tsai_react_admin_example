@@ -12,11 +12,21 @@ import LoginPage from './LoginPage.jsx';
 import NewPasswordPage from './NewPasswordPage.jsx';
 
 export const App = () => (
-  <Admin layout={Layout} dataProvider={dataProvider} authProvider={authProvider} loginPage={LoginPage}>
-
+  <Admin 
+    layout={Layout} 
+    dataProvider={dataProvider} 
+    authProvider={authProvider} 
+    loginPage={LoginPage}
+    // 添加 history 屬性以明確控制路由（如果需要，但通常 react-admin 會自行處理）
+    // 這裡暫時不加，因為大多數情況下 react-admin 會自動處理內部路由。
+  >
+    {/* 將 CustomRoutes 放在這裡，這是標準做法 */}
     <CustomRoutes>
-            <Route path="/new-password" element={<NewPasswordPage />} />
+        {/* 確保 path 是正確的，並且 element 渲染的是正確的組件 */}
+        <Route path="/new-password" element={<NewPasswordPage />} />
+        {/* 如果未來有其他自定義路由，也放在這裡 */}
     </CustomRoutes>
+
     <Resource name="users" list={UserList} />
     <Resource name="posts" list={PostList} />
     <Resource name="photos" list={PhotoList} />
