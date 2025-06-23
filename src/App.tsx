@@ -11,9 +11,51 @@ import authProvider from './authProvider';
 import LoginPage from './LoginPage.jsx'; 
 import NewPasswordPage from './NewPasswordPage.jsx';
 
+import indigo from '@mui/material/colors/indigo';
+import pink from '@mui/material/colors/pink';
+import red from '@mui/material/colors/red';
+
+
+const myTheme = {
+  ...defaultTheme,
+  palette: {
+      mode: 'dark',
+      primary: indigo,
+      secondary: pink,
+      error: red,
+  },
+  typography: {
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"Segoe UI"',
+          'Arial',
+          'sans-serif',
+      ].join(','),
+  },
+  components: {
+      ...defaultTheme.components,
+      MuiTextField: {
+          defaultProps: {
+              variant: 'outlined' as const,
+          },
+      },
+      MuiFormControl: {
+          defaultProps: {
+              variant: 'outlined' as const,
+          },
+      },
+  },
+};
+
+
 export const App = () => (
+
+
   <Admin 
     layout={Layout} 
+    theme={theme}
     dataProvider={dataProvider} 
     authProvider={authProvider} 
     loginPage={LoginPage}
