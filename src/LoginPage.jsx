@@ -2,16 +2,13 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useLogin, useNotify, Notification as RaNotification } from 'react-admin';
-// 不再需要 useNavigate，因為 react-admin 的 useLogin 會處理 redirectTo
-// import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const login = useLogin(); // react-admin 提供的登入鉤子
-    const notify = useNotify(); // react-admin 提供的通知鉤子
-    // const navigate = useNavigate(); // 移除 useNavigate
+    const login = useLogin();
+    const notify = useNotify();
 
     /**
      * 處理登入表單提交。
@@ -19,18 +16,27 @@ const LoginPage = () => {
      */
     const handleSubmit = (e) => {
         e.preventDefault();
-        // 調用 useLogin 鉤子進行登入
         login({ username, password })
             .then(() => {
-                // 如果 Promise resolve，表示登入成功（或新密碼設置成功），
+                // 如果 Promise resolve，表示登入成功。
                 // react-admin 的 useLogin 會自動將用戶重定向到主頁或指定的 `/` 路徑。
-                // 因此這裡通常不需要手動進行 navigate。
+                // 因此這裡不需要手動進行 navigate。
             })
             .catch((error) => {
-                // 如果 Promise reject，表示登入失敗。
-                // 如果 error 對象包含 redirectTo 屬性，useLogin 會自動處理重定向。
-                // 對於其他類型的錯誤（例如無效的用戶名/密碼），彈出通知。
-                notify(`登入失敗: ${error.message || '無效的用戶名或密碼'}`, { type: 'warning' });
+                // 這裡我們明確檢查 error 對象是否有 redirectTo 屬性。
+                // 如果有，說明這是 authProvider 發出的重定向信號（例如 newPasswordRequired）。
+                // 此時 useLogin 應該會自行處理重定向。
+                // 我們不應該在這裡顯示通知，避免在重定向時彈出錯誤通知。
+                if (error && error.redirectTo) {
+                    console.log('Login catch: Redirect detected, letting react-admin handle it.', error); //
+                    // 注意：這裡不需執行任何動作，因為 useLogin 會自動導航。
+                    // 以前的 "會話過期或無效，請重新登入" 通知應該是 NewPasswordPage 判斷 !storedUser 時發出的，
+                    // 這應該是另一個獨立的問題，或是一個後續鏈式的結果。
+                } else {
+                    // 對於沒有 redirectTo 屬性的普通登入錯誤，顯示通知。
+                    // error.message 會包含 authProvider 傳遞過來的錯誤訊息。
+                    notify(`登入失敗: ${error.message || '未知錯誤'}`, { type: 'warning' });
+                }
             });
     };
 
@@ -65,7 +71,7 @@ const LoginPage = () => {
                     </form>
                 </CardContent>
             </Card>
-            <RaNotification /> {/* 顯示 react-admin 的通知 */}
+            <RaNotification />
         </div>
     );
 };
