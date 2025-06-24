@@ -1,5 +1,5 @@
 import React from 'react';
-import { Admin, Resource, CustomRoutes, defaultTheme, radiantLightTheme, radiantDarkTheme } from 'react-admin';
+import { Admin, Resource, CustomRoutes, defaultTheme, radiantLightTheme, radiantDarkTheme, MenuItemLink } from 'react-admin';
 import { Route } from 'react-router-dom';
 
 // 导入您的 Layout 和 dataProvider (虽然暂时不使用 Layout)
@@ -12,6 +12,8 @@ import { PostList } from "./posts";
 import { PhotoList, PhotoEdit, PhotoShow } from "./photos";
 import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
+import YoutubePage from './YoutubePage';
+import MyMenu from './MyMenu';
 
 // 导入认证和登录相关组件
 import authProvider from './authProvider';
@@ -24,6 +26,7 @@ import UserIcon from "@mui/icons-material/Group";
 import LocalSeeIcon from '@mui/icons-material/LocalSee';
 import MessageIcon from "@mui/icons-material/Message";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 // 导入 Material-UI 颜色
 import { indigo, pink, red } from '@mui/material/colors';
@@ -70,9 +73,11 @@ export const App = () => (
     loginPage={LoginPage}
     theme={radiantLightTheme}
     darkTheme={radiantDarkTheme}
+    menu={MyMenu}
   >
     <CustomRoutes>
         <Route path="/new-password" element={<NewPasswordPage />} />
+        <Route path="/youtube" element={<YoutubePage />} /> 
     </CustomRoutes>
 
     {permissions => {

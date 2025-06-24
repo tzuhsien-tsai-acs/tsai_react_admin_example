@@ -1,16 +1,26 @@
 // src/LoginPage.jsx
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLogin, useNotify, Notification as RaNotification } from 'react-admin';
-import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom'; // *** 導入 useNavigate 鉤子 ***
+import { TextField, Button, Card, CardContent, Typography, Checkbox, FormControlLabel } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
     const login = useLogin();
     const notify = useNotify();
-    const navigate = useNavigate(); // *** 初始化 useNavigate ***
+    const navigate = useNavigate();
+
+    // 預設載入時自動帶入帳號
+    useEffect(() => {
+        const rememberedUsername = localStorage.getItem('remembered_username') || '';
+        if (rememberedUsername) {
+            setUsername(rememberedUsername);
+            setRememberMe(true);
+        }
+    }, []);
 
     /**
      * 處理登入表單提交。
@@ -20,7 +30,11 @@ const LoginPage = () => {
         e.preventDefault();
         login({ username, password })
             .then(() => {
-                // 如果 Promise resolve，表示登入成功。
+                if (rememberMe) {
+                    localStorage.setItem('remembered_username', username);
+                } else {
+                    localStorage.removeItem('remembered_username');
+                }
                 // react-admin 的 useLogin 會自動將用戶重定向到主頁或指定的 `/` 路徑。
             })
             .catch((error) => {
@@ -60,6 +74,16 @@ const LoginPage = () => {
                             fullWidth
                             margin="normal"
                             required
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={rememberMe}
+                                    onChange={(e) => setRememberMe(e.target.checked)}
+                                    color="primary"
+                                />
+                            }
+                            label="記住我"
                         />
                         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
                             登入
