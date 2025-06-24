@@ -1,22 +1,34 @@
+import React from 'react';
 import { Admin, Resource, CustomRoutes, defaultTheme, radiantLightTheme, radiantDarkTheme } from 'react-admin';
 import { Route } from 'react-router-dom';
-import { Layout } from "./Layout";
+
+// 导入您的 Layout 和 dataProvider (虽然暂时不使用 Layout)
+import { Layout } from "./Layout"; // <-- 暂时注释掉 Layout 的导入
 import { dataProvider } from "./dataProvider";
+
+// 导入您的资源组件
 import { UserList, UserShow } from "./users";
 import { PostList } from "./posts";
 import { PhotoList, PhotoEdit, PhotoShow } from "./photos";
 import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
-import authProvider from './authProvider'; 
-import LoginPage from './LoginPage.jsx'; 
+
+// 导入认证和登录相关组件
+import authProvider from './authProvider';
+import LoginPage from './LoginPage.jsx';
 import NewPasswordPage from './NewPasswordPage.jsx';
+
+// 导入 Material-UI Icons
 import PostIcon from "@mui/icons-material/Book";
 import UserIcon from "@mui/icons-material/Group";
 import LocalSeeIcon from '@mui/icons-material/LocalSee';
-import MessageIcon from '@mui/icons-material/Message';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MessageIcon from "@mui/icons-material/Message";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+
+// 导入 Material-UI 颜色
 import { indigo, pink, red } from '@mui/material/colors';
 
+// 自定义主题 (保持不变)
 const myTheme = {
   ...defaultTheme,
   palette: {
@@ -26,7 +38,6 @@ const myTheme = {
       error: red,
   },
   typography: {
-      // Use the system font instead of the default Roboto font.
       fontFamily: [
           '-apple-system',
           'BlinkMacSystemFont',
@@ -50,27 +61,21 @@ const myTheme = {
   },
 };
 
-
-
 export const App = () => (
-  <Admin 
-    layout={Layout} 
-    dataProvider={dataProvider} 
-    authProvider={authProvider} 
+  // <Admin> 组件应该包裹整个应用程序，并提供所有核心配置
+  <Admin
+    layout={Layout} // <-- 暂时移除这一行，让 React-Admin 使用默认布局和 AppBar
+    dataProvider={dataProvider}
+    authProvider={authProvider}
     loginPage={LoginPage}
     theme={radiantLightTheme}
     darkTheme={radiantDarkTheme}
-    // 添加 history 屬性以明確控制路由（如果需要，但通常 react-admin 會自行處理）
-    // 這裡暫時不加，因為大多數情況下 react-admin 會自動處理內部路由。
   >
-    {/* 將 CustomRoutes 放在這裡，這是標準做法 */}
     <CustomRoutes>
-        {/* 確保 path 是正確的，並且 element 渲染的是正確的組件 */}
         <Route path="/new-password" element={<NewPasswordPage />} />
-        {/* 如果未來有其他自定義路由，也放在這裡 */}
     </CustomRoutes>
 
-    {permissions => { // permissions 会是 'admin' 或 'user'
+    {permissions => {
             if (permissions === 'admin') {
                 return (
                   <>
@@ -80,9 +85,8 @@ export const App = () => (
                     <Resource name="comments" list={CommentList} icon={MessageIcon}/>
                     <Resource name="albums" list={AlbumList} icon={MenuBookIcon} />
                   </>
-                              );
+                );
             } else {
-              // 如果是普通用户，只显示部分资源，同样需要包裹起来
               return (
                   <>
                       <Resource name="posts" list={PostList} icon={PostIcon}/>
@@ -91,7 +95,6 @@ export const App = () => (
                   </>
               );
           }
-            // 如果不是 admin，则不显示或不返回该资源
             return null;
       }
     }

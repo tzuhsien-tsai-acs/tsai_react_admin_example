@@ -1,14 +1,11 @@
-// src/Layout.tsx
 import type { ReactNode } from "react";
-// 导入 react-admin 的 Layout 组件，并将其重命名为 RaLayout 以避免冲突
-import { Layout as RaLayout, CheckForApplicationUpdate } from "react-admin";
-// 导入您之前创建的 MyAppBar 组件
-import MyAppBar from './MyAppBar.tsx';
+import { Layout as RALayout, CheckForApplicationUpdate } from "react-admin";
+import MyAppBar from './MyAppBar'; // 导入您创建的 MyAppBar
 
 export const Layout = ({ children }: { children: ReactNode }) => (
   // 将 appBar prop 设置为您的 MyAppBar 组件
-  <RaLayout appBar={MyAppBar}>
+  <RALayout appBar={MyAppBar}>
     {children}
     <CheckForApplicationUpdate />
-  </RaLayout>
+  </RALayout>
 );
