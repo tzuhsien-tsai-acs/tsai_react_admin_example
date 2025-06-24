@@ -1,20 +1,21 @@
-import { Admin, Resource, CustomRoutes } from 'react-admin';
+import { Admin, Resource, CustomRoutes, defaultTheme, radiantLightTheme, radiantDarkTheme } from 'react-admin';
 import { Route } from 'react-router-dom';
 import { Layout } from "./Layout";
 import { dataProvider } from "./dataProvider";
-import { UserList } from "./users";
+import { UserList, UserShow } from "./users";
 import { PostList } from "./posts";
-import { PhotoList } from "./photos";
+import { PhotoList, PhotoEdit, PhotoShow } from "./photos";
 import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
 import authProvider from './authProvider'; 
 import LoginPage from './LoginPage.jsx'; 
 import NewPasswordPage from './NewPasswordPage.jsx';
-
-import indigo from '@mui/material/colors/indigo';
-import pink from '@mui/material/colors/pink';
-import red from '@mui/material/colors/red';
-
+import PostIcon from "@mui/icons-material/Book";
+import UserIcon from "@mui/icons-material/Group";
+import LocalSeeIcon from '@mui/icons-material/LocalSee';
+import MessageIcon from '@mui/icons-material/Message';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import { indigo, pink, red } from '@mui/material/colors';
 
 const myTheme = {
   ...defaultTheme,
@@ -50,15 +51,15 @@ const myTheme = {
 };
 
 
+
 export const App = () => (
-
-
   <Admin 
     layout={Layout} 
-    theme={theme}
     dataProvider={dataProvider} 
     authProvider={authProvider} 
     loginPage={LoginPage}
+    theme={radiantLightTheme}
+    darkTheme={radiantDarkTheme}
     // 添加 history 屬性以明確控制路由（如果需要，但通常 react-admin 會自行處理）
     // 這裡暫時不加，因為大多數情況下 react-admin 會自動處理內部路由。
   >
@@ -69,10 +70,31 @@ export const App = () => (
         {/* 如果未來有其他自定義路由，也放在這裡 */}
     </CustomRoutes>
 
-    <Resource name="users" list={UserList} />
-    <Resource name="posts" list={PostList} />
-    <Resource name="photos" list={PhotoList} />
-    <Resource name="comments" list={CommentList} />
-    <Resource name="albums" list={AlbumList} />
+    {permissions => { // permissions 会是 'admin' 或 'user'
+            if (permissions === 'admin') {
+                return (
+                  <>
+                    <Resource name="users" list={UserList} show={UserShow} icon={UserIcon}/>
+                    <Resource name="posts" list={PostList} icon={PostIcon}/>
+                    <Resource name="photos" list={PhotoList} edit={PhotoEdit} show={PhotoShow} icon={LocalSeeIcon}/>
+                    <Resource name="comments" list={CommentList} icon={MessageIcon}/>
+                    <Resource name="albums" list={AlbumList} icon={MenuBookIcon} />
+                  </>
+                              );
+            } else {
+              // 如果是普通用户，只显示部分资源，同样需要包裹起来
+              return (
+                  <>
+                      <Resource name="posts" list={PostList} icon={PostIcon}/>
+                      <Resource name="photos" list={PhotoList} show={PhotoShow} icon={LocalSeeIcon}/>
+                      <Resource name="albums" list={AlbumList} icon={MenuBookIcon} />
+                  </>
+              );
+          }
+            // 如果不是 admin，则不显示或不返回该资源
+            return null;
+      }
+    }
+
   </Admin>
 );

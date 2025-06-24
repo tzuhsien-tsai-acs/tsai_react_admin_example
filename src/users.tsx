@@ -1,5 +1,20 @@
 import { useMediaQuery, Theme } from "@mui/material";
-import { List, SimpleList, DataTable, EmailField } from "react-admin";
+import { List, SimpleList, DataTable, EmailField, Show, SimpleShowLayout, TextField, UrlField } from "react-admin";
+
+export const UserShow = () => (
+    <Show>
+        <SimpleShowLayout>
+            <TextField source="id" />
+            <TextField source="name" />
+            <TextField source="username" />
+            <EmailField source="email" />
+            <TextField source="address.street" />
+            <TextField source="phone" />
+            <TextField source="website" />
+            <TextField source="company.name" />
+        </SimpleShowLayout>
+    </Show>
+);
 
 export const UserList = () => {
     const isSmall = useMediaQuery<Theme>((theme) => theme.breakpoints.down("sm"));
@@ -21,7 +36,10 @@ export const UserList = () => {
                     </DataTable.Col>
                     <DataTable.Col source="address.street" />
                     <DataTable.Col source="phone" />
-                    <DataTable.Col source="website" />
+                    <DataTable.Col 
+                        source="website" 
+                        render={(record) => <UrlField record={record} source="website" />} 
+                    />
                     <DataTable.Col source="company.name" />
                     <DataTable.Col source="address.zipcode" />
                 </DataTable>

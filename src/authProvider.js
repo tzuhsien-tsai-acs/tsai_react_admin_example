@@ -136,19 +136,25 @@ const authProvider = {
     async getPermissions() {
         const idToken = localStorage.getItem('cognito_id_token');
         if (!idToken) {
-            return Promise.resolve([]);
+            console.log('getPermissions: No ID Token found.');
+            return Promise.resolve('guest'); // 或者 'user'，或者返回 null
         }
-
+    
         try {
             const decodedToken = JSON.parse(atob(idToken.split('.')[1]));
+            console.log('getPermissions: Decoded ID Token Payload:', decodedToken);
             const groups = decodedToken['cognito:groups'] || [];
+            console.log('getPermissions: Extracted groups:', groups);
+    
             if (groups.includes('admin')) {
-                return Promise.resolve(['admin']);
+                console.log('getPermissions: User is admin, returning "admin".');
+                return Promise.resolve('admin'); // 直接返回 'admin' 字符串
             }
-            return Promise.resolve(['user']);
+            console.log('getPermissions: User is not admin, returning "user".');
+            return Promise.resolve('user'); // 直接返回 'user' 字符串
         } catch (e) {
-            console.error('解析 ID Token 失敗:', e);
-            return Promise.resolve([]);
+            console.error('getPermissions: 解析 ID Token 失敗:', e);
+            return Promise.resolve('guest'); // 錯誤時返回一個默認權限，例如 'guest'
         }
     }
 };
