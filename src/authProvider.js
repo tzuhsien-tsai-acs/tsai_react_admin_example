@@ -1,6 +1,6 @@
 // src/authProvider.js
 import { CognitoUserPool, AuthenticationDetails, CognitoUser } from 'amazon-cognito-identity-js';
-import { setCognitoUserRequiringNewPassword } from './cognitoState';
+import { setCognitoUserRequiringNewPassword } from './cognitoState.js';
 
 const poolData = {
     UserPoolId: 'ap-northeast-1_NC1G6gOeq', // 您的 Cognito 用戶池 ID

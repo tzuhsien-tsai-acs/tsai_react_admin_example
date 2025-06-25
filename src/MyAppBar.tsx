@@ -1,8 +1,6 @@
 // src/MyAppBar.tsx
-import React from 'react';
-import { AppBar, UserMenu, MenuItemLink, useTranslate, useGetIdentity, Logout } from 'react-admin';
+import { AppBar, UserMenu, useTranslate, useGetIdentity, Logout } from 'react-admin';
 import { Typography, Box, CircularProgress } from '@mui/material';
-import ExitIcon from '@mui/icons-material/ExitToApp';
 import { useTheme } from '@mui/material/styles';
 
 const MyUserMenu = () => {

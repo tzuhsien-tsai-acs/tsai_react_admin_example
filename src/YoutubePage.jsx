@@ -7,12 +7,12 @@ const youtubeVideos = [
         url: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
-        title: "動畫二（範例：Google I/O 2021 Keynote）",
-        url: "https://www.youtube.com/embed/Vt7l5q4L4Mc"
+        title: "動畫二（範例：React Admin Crash Course 2025）",
+        url: "https://www.youtube.com/embed/PyaSnpXssks?si=RWGmzMkKOfMm_Bck"
     },
     {
-        title: "動畫三（範例：NASA 火箭動畫）",
-        url: "https://www.youtube.com/embed/21X5lGlDOfg"
+        title: "動畫三（範例：3つのコツで中華料理屋の味に！料理研究家が全力で伝授する肉野菜炒めの作り方）",
+        url: "https://www.youtube.com/embed/xK0SY4R8HOo?si=RC2wYKRu3Gigu1_M"
     }
 ];
 

@@ -1,12 +1,10 @@
 {
   "private": true,
   "type": "module",
+  "name": "test-admin",
   "scripts": {
     "dev": "vite",
-    "start": "react-app-rewired start --config-overrides config-overrides.cjs",
-    "build": "react-app-rewired build --config-overrides config-overrides.cjs",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject",
+    "build": "vite build",
     "serve": "vite preview",
     "type-check": "tsc --noEmit",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx ./src",
@@ -19,12 +17,17 @@
     "@mui/material": "^7.1.2",
     "amazon-cognito-identity-js": "^5.2.14",
     "aws-sdk": "^2.1692.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "ra-data-json-server": "^5.8.4",
     "react": "^19.1.0",
     "react-admin": "^5.8.4",
     "react-dom": "^19.1.0",
     "react-router": "^7.6.2",
-    "react-router-dom": "^7.6.2"
+    "react-router-dom": "^7.6.2",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
@@ -35,7 +38,6 @@
     "assert": "^2.1.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.1",
-    "customize-cra": "^1.0.0",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.2.5",
@@ -44,8 +46,6 @@
     "globals": "^16.0.0",
     "prettier": "^3.3.3",
     "process": "^0.11.10",
-    "react-app-rewired": "^2.2.1",
-    "react-scripts": "^5.0.1",
     "stream-browserify": "^3.0.0",
     "typescript": "^4.9.5",
     "typescript-eslint": "^8.28.0",
@@ -53,7 +53,6 @@
     "vite": "^6.2.6",
     "webpack": "^5.99.9"
   },
-  "name": "test-admin",
   "browserslist": {
     "production": [
       ">0.2%",

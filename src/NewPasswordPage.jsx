@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 // *** 關鍵改變：從 'react-admin' 導入 Notification ***
 import { useNotify, Notification } from 'react-admin'; 
 import { TextField, Button, Card, CardContent, Typography, CircularProgress } from '@mui/material';
-import { getCognitoUserRequiringNewPassword, clearCognitoUserRequiringNewPassword } from './cognitoState';
+import { getCognitoUserRequiringNewPassword, clearCognitoUserRequiringNewPassword } from './cognitoState.js';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 // 導入 Cognito 相關類，以便在需要時重新構建 CognitoUser 實例
