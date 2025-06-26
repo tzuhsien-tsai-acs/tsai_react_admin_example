@@ -12,7 +12,7 @@ export async function listMessages(chatId: string, jwtToken: string) {
       query: `
         query ListMessages($chatId: String!) {
           listMessages(chatId: $chatId) {
-            id
+            chatId
             sender
             content
             createdAt
@@ -22,8 +22,14 @@ export async function listMessages(chatId: string, jwtToken: string) {
       variables: { chatId },
     }),
   });
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`API Error: ${res.status} ${errText}`);
+  }
   const json = await res.json();
-  // 依你 GraphQL schema 結構回傳
+  if (json.errors) {
+    throw new Error(JSON.stringify(json.errors));
+  }
   return json.data?.listMessages || [];
 }
 
@@ -39,13 +45,23 @@ export async function sendMessage(chatId: string, sender: string, content: strin
       query: `
         mutation SendMessage($chatId: String!, $sender: String!, $content: String!) {
           sendMessage(chatId: $chatId, sender: $sender, content: $content) {
-            id
+            chatId
+            sender
+            content
+            createdAt
           }
         }
       `,
       variables: { chatId, sender, content },
     }),
   });
+  if (!res.ok) {
+    const errText = await res.text();
+    throw new Error(`API Error: ${res.status} ${errText}`);
+  }
   const json = await res.json();
+  if (json.errors) {
+    throw new Error(JSON.stringify(json.errors));
+  }
   return json.data?.sendMessage;
 }
