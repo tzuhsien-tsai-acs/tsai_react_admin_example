@@ -12,6 +12,7 @@ import { PhotoList, PhotoEdit, PhotoShow } from "./photos";
 import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
 import YoutubePage from './YoutubePage';
+import i18nProvider from './i18nProvider';
 
 // 导入认证和登录相关组件
 import authProvider from './authProvider';
@@ -68,6 +69,7 @@ export const App = () => (
     dataProvider={dataProvider}
     authProvider={authProvider}
     loginPage={LoginPage}
+    i18nProvider={i18nProvider}
     theme={radiantLightTheme}
     darkTheme={radiantDarkTheme}
 
