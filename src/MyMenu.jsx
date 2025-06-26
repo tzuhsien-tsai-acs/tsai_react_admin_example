@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu, MenuItemLink, useResourceDefinitions } from 'react-admin';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import PendingIcon from '@mui/icons-material/Pending';
 
 const MyMenu = (props) => {
     const resources = useResourceDefinitions();
@@ -22,8 +23,9 @@ const MyMenu = (props) => {
                     }
                 />
             ))}
-            {/* 這裡手動加上 YouTube 動畫頁 */}
+            {/* 這裡手動加上 YouTube 動畫頁等非resource項目 */}
             <MenuItemLink to="/youtube" primaryText="YouTube 動畫" leftIcon={<YouTubeIcon />} />
+            <MenuItemLink to="/chat" primaryText="聊天室" leftIcon={<PendingIcon />} />
         </Menu>
     );
 };

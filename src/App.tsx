@@ -13,6 +13,7 @@ import { CommentList } from "./comments";
 import { AlbumList } from "./albums";
 import YoutubePage from './YoutubePage';
 import i18nProvider from './i18nProvider';
+import ChatPage from "./ChatPage"
 
 // 导入认证和登录相关组件
 import authProvider from './authProvider';
@@ -77,6 +78,7 @@ export const App = () => (
     <CustomRoutes>
         <Route path="/new-password" element={<NewPasswordPage />} />
         <Route path="/youtube" element={<YoutubePage />} /> 
+        <Route path="/chat" element={<ChatPage />} />
     </CustomRoutes>
 
     {permissions => {
