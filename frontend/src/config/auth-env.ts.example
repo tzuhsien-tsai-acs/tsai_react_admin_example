@@ -1,0 +1,5 @@
+// src/config/auth-env.ts.example
+export const AUTH_CONFIG = {
+    userPoolId: 'YOUR_COGNITO_USER_POOL_ID_HERE', // e.g., 'ap-northeast-1_xxxxxxxxx'
+    userPoolWebClientId: 'YOUR_COGNITO_APP_CLIENT_ID_HERE', // e.g., 'xxxxxxxxxxxxxxxxxxxxxx'
+};

@@ -1,0 +1,160 @@
+{
+  "ra": {
+    "action": {
+      "save": "儲存",
+      "create": "建立",
+      "delete": "刪除",
+      "refresh": "重新整理",
+      "unselect": "取消選擇",
+      "bulk_actions": "已選擇 1 個項目 |||| 已選擇 {{smart_count}} 個項目",
+      "customize": "自訂",
+      "select_row": "選擇此行",
+      "export": "匯出",
+      "show": "檢視",
+      "sort": "排序",
+      "close_menu": "關閉選單"
+    },
+    "auth": {
+      "logout": "登出"
+    },
+    "notification": {
+      "updated": "項目已更新",
+      "created": "項目已建立",
+      "deleted": "項目已刪除"
+    },
+    "message": {
+      "are_you_sure": "您確定嗎？"
+    },
+    "boolean": {
+      "true": "是",
+      "false": "否"
+    },
+    "navigation": {
+      "page_rows_per_page": "每頁顯示筆數:",
+      "page_range_info": "{{total}} 筆中的 {{offsetBegin}}-{{offsetEnd}} 筆",
+      "next": "下一頁",
+      "previous": "上一頁",
+      "end_ellipsis": "...",
+      "skip_nav": "跳至內容"
+    },
+    "sort": {
+      "sort_by": "排序方式",
+      "ASC": "升序",
+      "DESC": "降序"
+    },
+    "page": {
+      "dashboard": "儀表板",
+      "list": "列表",
+      "edit": "編輯",
+      "show": "檢視",
+      "create": "建立"
+    }
+  },
+  "resources": {
+    "users": {
+      "name": "使用者",
+      "page": {
+        "list": "使用者",
+        "show": "使用者",
+        "edit": "編輯使用者",
+        "create": "建立使用者"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "名稱",
+        "username": "使用者名稱"
+      }
+    },
+    "posts": {
+      "name": "文章",
+      "page": {
+        "list": "文章",
+        "show": "文章",
+        "edit": "編輯文章",
+        "create": "建立文章"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "標題",
+        "body": "內文",
+        "userId": "使用者 ID"
+      }
+    },
+    "photos": {
+      "name": "相片",
+      "page": {
+        "list": "相片",
+        "show": "相片",
+        "edit": "編輯相片",
+        "create": "建立相片"
+      },
+      "action": {
+        "show": "檢視相片",
+        "edit": "編輯相片"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "標題",
+        "url": "URL",
+        "thumbnailUrl": "縮圖",
+        "albumId": "相簿 ID",
+        "actions": "操作",
+        "show": "檢視"
+      }
+    },
+    "comments": {
+      "name": "評論",
+      "page": {
+        "list": "評論",
+        "show": "評論",
+        "edit": "編輯評論",
+        "create": "建立評論"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "名稱",
+        "email": "電子郵件",
+        "body": "內文"
+      }
+    },
+    "albums": {
+      "name": "相簿",
+      "page": {
+        "list": "相簿",
+        "show": "相簿",
+        "edit": "編輯相簿",
+        "create": "建立相簿"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "標題",
+        "userId": "使用者 ID"
+      }
+    }
+  },
+  "login": {
+    "title": "登入",
+    "username": "用戶名",
+    "password": "密碼",
+    "rememberMe": "記住我",
+    "button": "登入",
+    "failure": "登入失敗: {{error}}"
+  },
+  "unknownError": "未知錯誤",
+  "custom": {
+    "pages": {
+      "youtube": "Youtube",
+      "chat": "聊天室"
+    },
+    "chat": {
+      "title": "聊天室",
+      "connected": "已連接",
+      "disconnected": "斷開連接",
+      "errorPrefix": "錯誤:",
+      "loading": "載入訊息中或等待連接...",
+      "placeholder": "輸入訊息",
+      "send": "送出",
+      "loginRequired": "請先登入才能使用聊天室。"
+    }
+  }
+}

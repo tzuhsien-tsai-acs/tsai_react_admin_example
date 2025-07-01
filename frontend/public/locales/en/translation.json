@@ -1,0 +1,160 @@
+{
+  "ra": {
+    "action": {
+      "save": "Save",
+      "create": "Create",
+      "delete": "Delete",
+      "refresh": "Refresh",
+      "unselect": "Unselect",
+      "bulk_actions": "1 item selected |||| {{smart_count}} items selected",
+      "customize": "Customize",
+      "select_row": "Select row",
+      "export": "Export",
+      "show": "Show",
+      "sort": "Sort",
+      "close_menu": "Close menu"
+    },
+    "auth": {
+      "logout": "Logout"
+    },
+    "notification": {
+      "updated": "Element updated",
+      "created": "Element created",
+      "deleted": "Element deleted"
+    },
+    "message": {
+      "are_you_sure": "Are you sure?"
+    },
+    "boolean": {
+      "true": "Yes",
+      "false": "No"
+    },
+    "navigation": {
+      "page_rows_per_page": "Rows per page:",
+      "page_range_info": "{{offsetBegin}}-{{offsetEnd}} of {{total}}",
+      "next": "Next",
+      "previous": "Previous",
+      "end_ellipsis": "...",
+      "skip_nav": "Skip to content"
+    },
+    "sort": {
+      "sort_by": "Sort by",
+      "ASC": "Ascending",
+      "DESC": "Descending"
+    },
+    "page": {
+      "dashboard": "Dashboard",
+      "list": "List",
+      "edit": "Edit",
+      "show": "Show",
+      "create": "Create"
+    }
+  },
+  "resources": {
+    "users": {
+      "name": "Users",
+      "page": {
+        "list": "Users",
+        "show": "User",
+        "edit": "Edit User",
+        "create": "Create User"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "Name",
+        "username": "Username"
+      }
+    },
+    "posts": {
+      "name": "Posts",
+      "page": {
+        "list": "Posts",
+        "show": "Post",
+        "edit": "Edit Post",
+        "create": "Create Post"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "Title",
+        "body": "Body",
+        "userId": "User ID"
+      }
+    },
+    "photos": {
+      "name": "Photos",
+      "page": {
+        "list": "Photos",
+        "show": "Photo",
+        "edit": "Edit Photo",
+        "create": "Create Photo"
+      },
+      "action": {
+        "show": "Show Photo",
+        "edit": "Edit Photo"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "Title",
+        "url": "URL",
+        "thumbnailUrl": "Thumbnail",
+        "albumId": "Album ID",
+        "actions": "Actions",
+        "show": "Show"
+      }
+    },
+    "comments": {
+      "name": "Comments",
+      "page": {
+        "list": "Comments",
+        "show": "Comment",
+        "edit": "Edit Comment",
+        "create": "Create Comment"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "Name",
+        "email": "Email",
+        "body": "Body"
+      }
+    },
+    "albums": {
+      "name": "Albums",
+      "page": {
+        "list": "Albums",
+        "show": "Album",
+        "edit": "Edit Album",
+        "create": "Create Album"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "Title",
+        "userId": "User ID"
+      }
+    }
+  },
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "button": "Login",
+    "failure": "Login failed: {{error}}"
+  },
+  "unknownError": "Unknown error",
+  "custom": {
+    "pages": {
+      "youtube": "Youtube",
+      "chat": "Chat Room"
+    },
+    "chat": {
+      "title": "Chat Room",
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "errorPrefix": "Error:",
+      "loading": "Loading messages or waiting for connection...",
+      "placeholder": "Type a message",
+      "send": "Send",
+      "loginRequired": "Please log in to use the chat room."
+    }
+  }
+}

@@ -1,0 +1,4 @@
+// src/config/chat-env.ts.example
+export const CHAT_API_CONFIG = {
+    graphqlEndpoint: 'YOUR_WEBSOCKET_API_URL_HERE', // e.g., wss://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/production
+};

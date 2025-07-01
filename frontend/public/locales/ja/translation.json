@@ -1,0 +1,160 @@
+{
+  "ra": {
+    "action": {
+      "save": "保存",
+      "create": "作成",
+      "delete": "削除",
+      "refresh": "更新",
+      "unselect": "選択解除",
+      "bulk_actions": "1件選択中 |||| {{smart_count}}件選択中",
+      "customize": "カスタマイズ",
+      "select_row": "行を選択",
+      "export": "エクスポート",
+      "show": "詳細",
+      "sort": "並び替え",
+      "close_menu": "メニューを閉じる"
+    },
+    "auth": {
+      "logout": "ログアウト"
+    },
+    "notification": {
+      "updated": "更新しました",
+      "created": "作成しました",
+      "deleted": "削除しました"
+    },
+    "message": {
+      "are_you_sure": "よろしいですか？"
+    },
+    "boolean": {
+      "true": "はい",
+      "false": "いいえ"
+    },
+    "navigation": {
+      "page_rows_per_page": "表示件数:",
+      "page_range_info": "{{total}}件中 {{offsetBegin}}-{{offsetEnd}}件",
+      "next": "次へ",
+      "previous": "前へ",
+      "end_ellipsis": "...",
+      "skip_nav": "コンテンツへスキップ"
+    },
+    "sort": {
+      "sort_by": "並び替え",
+      "ASC": "昇順",
+      "DESC": "降順"
+    },
+    "page": {
+      "dashboard": "ダッシュボード",
+      "list": "一覧",
+      "edit": "編集",
+      "show": "詳細",
+      "create": "作成"
+    }
+  },
+  "resources": {
+    "users": {
+      "name": "ユーザー",
+      "page": {
+        "list": "ユーザー",
+        "show": "ユーザー",
+        "edit": "ユーザーを編集",
+        "create": "ユーザーを作成"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "名前",
+        "username": "ユーザー名"
+      }
+    },
+    "posts": {
+      "name": "投稿",
+      "page": {
+        "list": "投稿",
+        "show": "投稿",
+        "edit": "投稿を編集",
+        "create": "投稿を作成"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "タイトル",
+        "body": "本文",
+        "userId": "ユーザーID"
+      }
+    },
+    "photos": {
+      "name": "写真",
+      "page": {
+        "list": "写真",
+        "show": "写真",
+        "edit": "写真を編集",
+        "create": "写真を作成"
+      },
+      "action": {
+        "show": "写真詳細",
+        "edit": "写真編集"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "タイトル",
+        "url": "URL",
+        "thumbnailUrl": "サムネイル",
+        "albumId": "アルバムID",
+        "actions": "操作",
+        "show": "詳細"
+      }
+    },
+    "comments": {
+      "name": "コメント",
+      "page": {
+        "list": "コメント",
+        "show": "コメント",
+        "edit": "コメントを編集",
+        "create": "コメントを作成"
+      },
+      "fields": {
+        "id": "ID",
+        "name": "名前",
+        "email": "メールアドレス",
+        "body": "本文"
+      }
+    },
+    "albums": {
+      "name": "アルバム",
+      "page": {
+        "list": "アルバム",
+        "show": "アルバム",
+        "edit": "アルバムを編集",
+        "create": "アルバムを作成"
+      },
+      "fields": {
+        "id": "ID",
+        "title": "タイトル",
+        "userId": "ユーザーID"
+      }
+    }
+  },
+  "login": {
+    "title": "ログイン",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "rememberMe": "ログイン情報を記憶する",
+    "button": "ログイン",
+    "failure": "ログインに失敗しました: {{error}}"
+  },
+  "unknownError": "不明なエラー",
+  "custom": {
+    "pages": {
+      "youtube": "ユーチューブ",
+      "chat": "チャットルーム"
+    },
+    "chat": {
+      "title": "チャットルーム",
+      "connected": "接続済み",
+      "disconnected": "切断されました",
+      "errorPrefix": "エラー:",
+      "loading": "メッセージを読み込み中、または接続を待っています...",
+      "placeholder": "メッセージを入力",
+      "send": "送信",
+      "loginRequired": "チャットルームを使用するにはログインしてください。"
+    }
+  }
+}

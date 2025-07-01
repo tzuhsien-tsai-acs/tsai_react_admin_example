@@ -2,8 +2,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useLogin, useNotify, Notification as RaNotification } from 'react-admin';
+import { useTranslation } from 'react-i18next';
 import { TextField, Button, Card, CardContent, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const LoginPage = () => {
     const [username, setUsername] = useState('');
@@ -12,6 +14,7 @@ const LoginPage = () => {
     const login = useLogin();
     const notify = useNotify();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     // 預設載入時自動帶入帳號
     useEffect(() => {
@@ -45,21 +48,23 @@ const LoginPage = () => {
                     navigate('/new-password', { state: { username: username } });
                 } else {
                     // 對於其他普通登入錯誤，顯示通知。
-                    notify(`登入失敗: ${error || '未知錯誤'}`, { type: 'warning' });
+                    notify(t('login.failure', { error: error || t('unknownError') }), { type: 'warning' });
                 }
             });
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+        // 加上 position: 'relative' 作為定位基準
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', position: 'relative' }}>
+            <LanguageSwitcher sx={{ position: 'absolute', top: 16, right: 16, zIndex: 1 }} />
             <Card style={{ width: 400 }}>
                 <CardContent>
                     <Typography variant="h5" component="h2" gutterBottom align="center">
-                        登入
+                        {t('login.title')}
                     </Typography>
                     <form onSubmit={handleSubmit}>
                         <TextField
-                            label="用戶名"
+                            label={t('login.username')}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             fullWidth
@@ -67,7 +72,7 @@ const LoginPage = () => {
                             required
                         />
                         <TextField
-                            label="密碼"
+                            label={t('login.password')}
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
@@ -83,10 +88,10 @@ const LoginPage = () => {
                                     color="primary"
                                 />
                             }
-                            label="記住我"
+                            label={t('login.rememberMe')}
                         />
                         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-                            登入
+                            {t('login.button')}
                         </Button>
                     </form>
                 </CardContent>
